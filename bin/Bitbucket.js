@@ -88,7 +88,7 @@ class Bitbucket {
                 && cd ${pathToRepo} \
                 && git init \
                 && git remote add origin ${repository.links.clone[0].href} \
-                && git pull origin master`;
+                && git fetch --all && for branch in $(git branch -r | sed 's/origin\\\/\/\/') ; do git checkout $branch && git merge --ff-only || break ; done`;
     try {
       // initialize repo
       await exec(commands);

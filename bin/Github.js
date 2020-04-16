@@ -38,7 +38,7 @@ class Github {
     try {
       // make the request for a new repo
       await request.post({
-        url: "https://api.github.com/user/repos",
+        url:"https://api.github.com/user/repos",
         body: {
           name: repository.slug,
           description: repository.description,
@@ -111,11 +111,12 @@ class Github {
                 && git remote set-url origin https://${
                   process.env.GITHUB_USERNAME
                 }:${process.env.GITHUB_TOKEN}@github.com/${
-      process.env.GITHUB_USERNAME
+      (process.env.GITHUB_ORG_USERNAME || process.env.GITHUB_USERNAME)
     }/${repository.slug}.git \
-                && git push origin master`;
+                && git push --all`;
     try {
       // initialize repo
+      console.log("pushing repository", repository.slug);
       await exec(commands);
 
       return true;
